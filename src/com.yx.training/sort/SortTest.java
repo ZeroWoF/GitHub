@@ -43,6 +43,19 @@ public class SortTest {
         return null;
     }
 
+    private static void maxHeap(int[] array, int n){
+        //if(array[left(n)] > array[right(n)] && array[n] ){
+
+        //}
+    }
+
+    private static int left(int n){
+        return 2*(n+1) - 1;
+    }
+    private static int right(int n){
+        return 2*(n+1);
+    }
+
     /**
      * 选择排序 - 直接选择排序
      * 在要排序的一组数中，选出最小的一个数与第一个位置的数交换；
