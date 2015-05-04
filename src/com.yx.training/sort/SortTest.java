@@ -8,7 +8,8 @@ import java.util.Arrays;
 public class SortTest {
     public static void main(String[] argv) {
         int[] array = {99, 2, 1, 3, 1, 4, 7, 8, 3, 1, 3, 7, 98, -9, -4, 110, 100};
-        // 冒泡排序
+        int[] array1 = {-1, 2, 2};
+        // 交换排序 - 冒泡排序
         //System.out.println("bubbleSort: " + Arrays.toString(bubbleSort(array)));
         // 插入排序 - 直接插入
         //System.out.println("insertSort: " + Arrays.toString(insertSort(array)));
@@ -19,20 +20,21 @@ public class SortTest {
         // 选择排序 - 直接选择排序
         //System.out.println("selectionSort: " + Arrays.toString(selectionSort(array)));
         // 选择排序 - 堆排序
-        System.out.println("selectionSort: " + Arrays.toString(selectionSort(array)));
+        System.out.println("heapSort: " + Arrays.toString(heapSort(array)));
     }
 
     /**
      * 选择排序 - 堆排序
-     *
+     * <p/>
      * 数组 - 堆的存储：
      * 第一级节点 0
      * 第二级节点 1、2
      * 第三级节点 3、4、5、6
      * ....每级节点数量是上一级数量的2倍
-     *
+     * <p/>
      * 堆化：最大堆、最小堆
      * 每个有叶子节点的节点调整即可（按照最大堆、最小堆规则）
+     *
      * @param array
      * @return
      */
@@ -40,20 +42,73 @@ public class SortTest {
         if (null == array || array.length == 0) {
             return null;
         }
-        return null;
+        System.out.println("原数组：" + Arrays.toString(array));
+        // 选取 0 到 n-1 构建最大堆， 然后 0 与 n - 1 交换
+        // 选取 0 到 n-2 构建最大堆， 然后 0 与 n - 2 交换
+        // .....
+        // 只剩下 0 时，排序完成
+        for (int i = array.length - 1; i > 0; i--) {
+            // 构建堆区间为 0 到 i
+            // 对 0 到 i 之间每个非叶子节点执行maxHeap, 即完成最大堆化
+            for (int j = i; j >= 0; j--) {
+                maxHeap(array, j, i + 1);
+            }
+            System.out.println("第" + (array.length - i) + "次构建最大堆:          " + Arrays.toString(array));
+            swap(array, 0, i);
+            System.out.println("第" + (array.length - i) + "次交换 0 - " + i + " 最大数:  " + Arrays.toString(array));
+        }
+        return array;
     }
 
-    private static void maxHeap(int[] array, int n){
-        //if(array[left(n)] > array[right(n)] && array[n] ){
-
-        //}
+    /**
+     * 构建最大堆
+     * 选取一个节点为根结点
+     * 如果该节点比某一个叶子节点大，则交换其位置，
+     * 对交换了位置的叶子节点作为根节点再进行构建最大堆（如果这个节点不是叶子节点的话）
+     *
+     * @param array     待排序数据
+     * @param n         对第几个节点堆化
+     * @param length    待堆化数据长度，用户判断是否还存在子节点
+     */
+    private static void maxHeap(int[] array, int n, int length) {
+        int left = left(n), right = right(n);
+        // 如果n为叶子节点，则不需要构建最大堆
+        if (left > length - 1) {
+            return;
+        } else if (right > length - 1) { // 只存在左叶子节点
+            if (array[n] < array[left]) {
+                swap(array, n, left);
+                maxHeap(array, left, length);
+            }
+        } else {// 左右叶子节点都存在
+            if (array[left] >= array[right] && array[n] < array[left]) {
+                swap(array, n, left);
+                maxHeap(array, left, length);
+            } else if (array[left] < array[right] && array[n] < array[right]) {
+                swap(array, n, right);
+                maxHeap(array, right, length);
+            }
+        }
     }
 
-    private static int left(int n){
-        return 2*(n+1) - 1;
+    /**
+     * 获取节点的左叶子节点
+     *
+     * @param n
+     * @return
+     */
+    private static int left(int n) {
+        return 2 * (n + 1) - 1;
     }
-    private static int right(int n){
-        return 2*(n+1);
+
+    /**
+     * 获取节点的右叶子节点
+     *
+     * @param n
+     * @return
+     */
+    private static int right(int n) {
+        return 2 * (n + 1);
     }
 
     /**
@@ -198,7 +253,7 @@ public class SortTest {
     }
 
     /**
-     * 冒泡排序
+     * 交换排序 - 冒泡排序
      * 冒泡排序算法的运作如下：（从后往前）
      * 1. 比较相邻的元素。如果第一个比第二个大，就交换他们两个。
      * 2. 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。
