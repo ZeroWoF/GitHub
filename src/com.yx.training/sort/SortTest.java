@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class SortTest {
     public static void main(String[] argv) {
-        int[] array = {99, 2, 1, 3, 1, 4, 7, 8, 3, 1, 3, 7, 98, -9, -4, 110, 100};
+        int[] array = {99, -2, 1, 3, -1, 4, 88, 8, 53, 1, 22, 17, 98, -9, -4, 110, 100};
         int[] array1 = {1, -2, 0};
         // 交换排序 - 冒泡排序
         //System.out.println("bubbleSort: " + Arrays.toString(bubbleSort(array)));
@@ -33,34 +33,33 @@ public class SortTest {
      */
     public static int[] quickSort(int[] array, int s, int j) {
         int index = s;
-        int oldIndex = index;
+        boolean left = false;
         //System.out.println("s:" + s + " j:" + j);
         if(s >= j){
             return array;
         }
-        System.out.println(Arrays.toString(array));
-        for(int i = j, k = 0; k < j - s; k++){
-            //System.out.println("index:" + index + " i:" + i + " k:" + k);
-            if(array[index] > array[i] && i > index){
-                swap(array, index, i);
-                oldIndex = index;
-                index = i;
-                i = oldIndex + 1;
-            }else if(array[index] < array[i] && i < index){
-                swap(array, index, i);
-                oldIndex = index;
-                index = i;
-                i = i - 1;
+        for(int i = s, k = j; i < k;){
+            if(!left){
+                if(array[index] > array[k]){
+                    swap(array, index, k);
+                    index = k;
+                    left = true;
+                    i++;
+                }else{
+                    k--;
+                }
             }else{
-                if(i > index){
-                    i--;
+                if(array[index] < array[i]){
+                    swap(array, index, i);
+                    index = i;
+                    k--;
+                    left = false;
                 }else{
                     i++;
                 }
             }
         }
-        System.out.println("index:" + index);
-        System.out.println(Arrays.toString(array));
+        System.out.println("key:" + array[index] +" index:" + index + "  " + Arrays.toString(array));
         quickSort(array, s, index - 1);
         quickSort(array, index + 1, j);
         return array;
