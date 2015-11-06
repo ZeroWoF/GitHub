@@ -1,4 +1,4 @@
-package com.yx.training.web.tcp;
+package com.yx.training.net.tcp;
 
 import java.io.InputStream;
 import java.io.OutputStream;

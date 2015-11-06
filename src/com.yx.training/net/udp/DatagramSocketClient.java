@@ -1,4 +1,4 @@
-package com.yx.training.web.udp;
+package com.yx.training.net.udp;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

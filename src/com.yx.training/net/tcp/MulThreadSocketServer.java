@@ -1,4 +1,4 @@
-package com.yx.training.web.tcp;
+package com.yx.training.net.tcp;
 
 import java.net.ServerSocket;
 import java.net.Socket;
